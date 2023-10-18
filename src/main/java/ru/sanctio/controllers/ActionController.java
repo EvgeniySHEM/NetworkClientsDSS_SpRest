@@ -1,17 +1,15 @@
 package ru.sanctio.controllers;
 
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import ru.sanctio.exception_handling.IncorrectData;
+import ru.sanctio.exception_handling.NoSuchDataException;
 import ru.sanctio.models.dto.AddressDTO;
 import ru.sanctio.models.dto.ClientDTO;
 import ru.sanctio.service.AddressService;
 import ru.sanctio.service.ClientService;
-
-import java.io.IOException;
 
 @RestController
 @RequestMapping("api/clients/action")
@@ -28,7 +26,28 @@ public class ActionController {
 
     @GetMapping("/{id}")
     public ClientDTO getClientById(@PathVariable String id) {
-        return clientService.getClientById(id);
+        ClientDTO client = clientService.getClientById(id);
+
+        if(client == null) {
+            throw new NoSuchDataException("There is no client with ID = " + id + " in database");
+        }
+        return client;
+    }
+
+    @GetMapping("/addresses/{id}")
+    public AddressDTO getAddressById(@PathVariable String id) {
+        AddressDTO addressDTO = addressService.selectAddressById(id);
+
+        if(addressDTO == null) {
+            throw new NoSuchDataException("There is no address with ID = " + id + " in database");
+        }
+        return addressDTO;
+    }
+
+    @ExceptionHandler
+    public ResponseEntity<IncorrectData> handleException(NoSuchDataException e) {
+        IncorrectData addressIncorrectData = new IncorrectData(e.getMessage());
+        return new ResponseEntity<>(addressIncorrectData, HttpStatus.NOT_FOUND);
     }
 
 //    @RequestMapping("/registration")

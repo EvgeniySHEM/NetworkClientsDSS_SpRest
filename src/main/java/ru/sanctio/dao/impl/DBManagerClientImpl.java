@@ -2,6 +2,8 @@
 package ru.sanctio.dao.impl;
 
 
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,10 +19,12 @@ import java.util.Optional;
 public class DBManagerClientImpl implements DBManagerClient {
 
     private final SessionFactory sessionFactory;
+    private final EntityManagerFactory entityManagerFactory;
 
     @Autowired
-    public DBManagerClientImpl(SessionFactory sessionFactory) {
+    public DBManagerClientImpl(SessionFactory sessionFactory, EntityManagerFactory entityManagerFactory) {
         this.sessionFactory = sessionFactory;
+        this.entityManagerFactory = entityManagerFactory;
     }
 
     @Override
@@ -95,7 +99,7 @@ public class DBManagerClientImpl implements DBManagerClient {
 
     @Override
     public Client getClientById(String id) {
-        Session session = sessionFactory.getCurrentSession();
-        return session.find(Client.class, id);
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        return entityManager.find(Client.class, id);
     }
 }
