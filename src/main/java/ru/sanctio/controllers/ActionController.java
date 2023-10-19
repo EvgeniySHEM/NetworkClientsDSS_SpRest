@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.sanctio.exception_handling.IncorrectData;
 import ru.sanctio.exception_handling.NoSuchDataException;
+import ru.sanctio.exception_handling.RepeatingAddressException;
 import ru.sanctio.models.dto.AddressDTO;
 import ru.sanctio.models.dto.ClientDTO;
 import ru.sanctio.service.AddressService;
@@ -49,34 +50,19 @@ public class ActionController {
 //        return "Registration";
 //    }
 //
-//    @RequestMapping("/create")
-//    public String createNewClient(HttpServletRequest request, HttpServletResponse response) throws IOException {
-//        ClientDTO clientDTO = new ClientDTO(0,
-//                request.getParameter("clientName"),
-//                request.getParameter("type"),
-//                request.getParameter("date"));
-//
-//        AddressDTO addressDTO = new AddressDTO(0,
-//                request.getParameter("ip"),
-//                request.getParameter("mac"),
-//                request.getParameter("model"),
-//                request.getParameter("address"),
-//                clientDTO);
-//
-//        boolean newClient = false;
-//        try {
-//            newClient = clientService.createNewClient(clientDTO, addressDTO);
-//        } catch (NullPointerException | IllegalArgumentException ex) {
-//            response.sendError(490, ex.getMessage());
-//        }
-//
-//        if (newClient) {
-//            return "redirect:/allInformation";
-//        } else {
-//            return "AddNewClientError";
-//        }
-//    }
-//
+    @PostMapping("/")
+    public ResponseEntity createNewClient(@RequestBody AddressDTO addressDTO) {
+
+        ClientDTO clientDTO = addressDTO.client();
+        boolean newClient = clientService.createNewClient(clientDTO, addressDTO);
+
+
+        if (!newClient) {
+            throw new RepeatingAddressException("Duplicate addresses in the database");
+        }
+        return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+
 //    @RequestMapping("/getInfoForUpdate")
 //    public String getInfoForUpdate(@RequestParam String addressId, Model model) {
 //        AddressDTO addressDTO = addressService.selectAddressById(addressId);

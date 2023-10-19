@@ -2,17 +2,17 @@ package ru.sanctio.exception_handling;
 
 public class IncorrectData {
 
-    private String info;
+    private String errorInfo;
 
     public IncorrectData(String info) {
-        this.info = info;
+        this.errorInfo = info;
     }
 
-    public String getInfo() {
-        return info;
+    public String getErrorInfo() {
+        return errorInfo;
     }
 
-    public void setInfo(String info) {
-        this.info = info;
+    public void setErrorInfo(String errorInfo) {
+        this.errorInfo = errorInfo;
     }
 }

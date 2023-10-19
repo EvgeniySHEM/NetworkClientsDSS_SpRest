@@ -15,6 +15,12 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler
+    public ResponseEntity<IncorrectData> handleException(IllegalArgumentException e) {
+        IncorrectData addressIncorrectData = new IncorrectData(e.getMessage());
+        return new ResponseEntity<>(addressIncorrectData, HttpStatus.CONFLICT);
+    }
+
+    @ExceptionHandler
     public ResponseEntity<IncorrectData> handleException(Exception e) {
         IncorrectData addressIncorrectData = new IncorrectData(e.getMessage());
         return new ResponseEntity<>(addressIncorrectData, HttpStatus.BAD_REQUEST);
