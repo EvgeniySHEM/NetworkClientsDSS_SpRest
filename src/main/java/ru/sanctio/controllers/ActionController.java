@@ -44,12 +44,6 @@ public class ActionController {
         return addressDTO;
     }
 
-    @ExceptionHandler
-    public ResponseEntity<IncorrectData> handleException(NoSuchDataException e) {
-        IncorrectData addressIncorrectData = new IncorrectData(e.getMessage());
-        return new ResponseEntity<>(addressIncorrectData, HttpStatus.NOT_FOUND);
-    }
-
 //    @RequestMapping("/registration")
 //    public String showRegistrationJSP() {
 //        return "Registration";
