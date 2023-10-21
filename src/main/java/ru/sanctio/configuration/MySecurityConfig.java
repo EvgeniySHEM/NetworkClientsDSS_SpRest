@@ -24,34 +24,36 @@ import javax.sql.DataSource;
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true, jsr250Enabled = true)
 public class MySecurityConfig {
-//    @Bean
-//    public UserDetailsManager userDetailsManager(DataSource dataSource) {
-//        return new JdbcUserDetailsManager(dataSource);
-//    }
+
+    //хранение данных в БД
+    @Bean
+    public UserDetailsManager userDetailsManager(DataSource dataSource) {
+        return new JdbcUserDetailsManager(dataSource);
+    }
 
     //Хранение данных на уровне приложения
-    @Bean
-    public BCryptPasswordEncoder bCryptPasswordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
-
-    @Bean
-    public UserDetailsService userDetailsService(BCryptPasswordEncoder passwordEncoder) {
-        InMemoryUserDetailsManager manager = new InMemoryUserDetailsManager();
-        manager.createUser(User.withUsername("SHEM")
-                .password(passwordEncoder.encode("SHEM"))
-                .roles("EMPLOYEE")
-                .build());
-        manager.createUser(User.withUsername("Yana")
-                .password(passwordEncoder.encode("123qwe"))
-                .roles("HR")
-                .build());
-        manager.createUser(User.withUsername("Mark")
-                .password(passwordEncoder.encode("123qwe"))
-                .roles("MANAGER", "HR")
-                .build());
-        return manager;
-    }
+//    @Bean
+//    public BCryptPasswordEncoder bCryptPasswordEncoder() {
+//        return new BCryptPasswordEncoder();
+//    }
+//
+//    @Bean
+//    public UserDetailsService userDetailsService(BCryptPasswordEncoder passwordEncoder) {
+//        InMemoryUserDetailsManager manager = new InMemoryUserDetailsManager();
+//        manager.createUser(User.withUsername("SHEM")
+//                .password(passwordEncoder.encode("SHEM"))
+//                .roles("EMPLOYEE")
+//                .build());
+//        manager.createUser(User.withUsername("Yana")
+//                .password(passwordEncoder.encode("123qwe"))
+//                .roles("HR")
+//                .build());
+//        manager.createUser(User.withUsername("Mark")
+//                .password(passwordEncoder.encode("123qwe"))
+//                .roles("MANAGER", "HR")
+//                .build());
+//        return manager;
+//    }
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
