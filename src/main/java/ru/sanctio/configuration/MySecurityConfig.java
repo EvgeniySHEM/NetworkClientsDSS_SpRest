@@ -15,6 +15,7 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import javax.sql.DataSource;
 
@@ -52,14 +53,16 @@ public class MySecurityConfig {
         return manager;
     }
 
-//    @Bean
-//    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-//        http.authorizeHttpRequests((authz) -> authz
-//                        .requestMatchers("/").hasAnyRole("HR", "EMPLOYEE", "MANAGER")
-//                        .requestMatchers("/hr_info/**").hasRole("HR")
-//                        .requestMatchers("/manager_info/**").hasRole("MANAGER")
-//                        .anyRequest().authenticated())
-//                .formLogin(Customizer.withDefaults());
-//        return http.build();
-//    }
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        http.authorizeHttpRequests((user) -> user
+                .requestMatchers(new AntPathRequestMatcher("/api/clients")).hasAnyRole("HR", "MANAGER", "EMPLOYEE")
+                .requestMatchers(new AntPathRequestMatcher("/api/clients/action/**")).hasRole("MANAGER")
+//                .requestMatchers(new AntPathRequestMatcher("/hr_info/**")).hasRole("HR")
+                .anyRequest().authenticated()
+        ).formLogin(Customizer.withDefaults());
+
+
+        return http.build();
+    }
 }
