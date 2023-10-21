@@ -1,6 +1,7 @@
 package ru.sanctio.configuration;
 
 import com.mchange.v2.c3p0.ComboPooledDataSource;
+import com.zaxxer.hikari.HikariDataSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -19,17 +20,27 @@ import java.util.Properties;
 @EnableTransactionManagement
 public class MyConfig {
 
+//    @Bean
+//    public DataSource dataSource() {
+//        ComboPooledDataSource dataSource = new ComboPooledDataSource();
+//        try {
+//            dataSource.setDriverClass("org.postgresql.Driver");
+//            dataSource.setJdbcUrl("jdbc:postgresql://localhost:5432/jakarta?useSSL=false&serverTimezone=UTC");
+//            dataSource.setUser("evgeniysharychenkov");
+////            dataSource.setPassword("12345678");
+//        } catch (PropertyVetoException e) {
+//            throw new RuntimeException(e);
+//        }
+//        return dataSource;
+//    }
+
     @Bean
     public DataSource dataSource() {
-        ComboPooledDataSource dataSource = new ComboPooledDataSource();
-        try {
-            dataSource.setDriverClass("org.postgresql.Driver");
-            dataSource.setJdbcUrl("jdbc:postgresql://localhost:5432/jakarta?useSSL=false&serverTimezone=UTC");
-            dataSource.setUser("evgeniysharychenkov");
+        HikariDataSource dataSource = new HikariDataSource();
+        dataSource.setDriverClassName("org.postgresql.Driver");
+        dataSource.setJdbcUrl("jdbc:postgresql://localhost:5432/jakarta?useSSL=false&serverTimezone=UTC");
+        dataSource.setUsername("evgeniysharychenkov");
 //            dataSource.setPassword("12345678");
-        } catch (PropertyVetoException e) {
-            throw new RuntimeException(e);
-        }
         return dataSource;
     }
 

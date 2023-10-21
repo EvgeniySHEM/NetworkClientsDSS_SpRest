@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import ru.sanctio.dao.DBManagerAddress;
 import ru.sanctio.models.entity.Address;
+import ru.sanctio.models.entity.Client;
 
 import java.util.List;
 
@@ -62,8 +63,9 @@ public class DBManagerAddressImpl implements DBManagerAddress {
         return !list.isEmpty();
     }
 
-    private void deleteClientWithoutAddressById(int clientId) {
+    private void deleteClientWithoutAddressById(int clientId) { // лучше сделать через createQuery одним запросом
         Session session = sessionFactory.getCurrentSession();
-        session.remove(clientId);
+        Client client = session.find(Client.class, clientId);
+        session.remove(client);
     }
 }
