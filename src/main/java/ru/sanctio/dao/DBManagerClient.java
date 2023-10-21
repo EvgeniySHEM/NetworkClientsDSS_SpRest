@@ -6,7 +6,7 @@ import ru.sanctio.models.entity.Client;
 public interface DBManagerClient {
 
     boolean createNewClient(Client newClient, Address newAddress);
-    boolean update(Client newClient, Address newAddress);
+    Address update(Address newAddress);
 
     Client getClientById(String id);
 }

@@ -34,10 +34,10 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     @Transactional
-    public boolean updateClient(ClientDTO clientDTO, AddressDTO addressDTO) {
-        Client newClient = ClientDTOMapper.INSTANCE.mapToEntity(clientDTO);
+    public AddressDTO updateClient(AddressDTO addressDTO) {
         Address newAddress = AddressDTOMapper.INSTANCE.mapToEntity(addressDTO);
-        return dbManagerClient.update(newClient, newAddress);
+        Address address = dbManagerClient.update(newAddress);
+        return AddressDTOMapper.INSTANCE.mapToDto(address);
     }
 
     @Override

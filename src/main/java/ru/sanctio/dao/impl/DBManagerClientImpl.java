@@ -90,11 +90,9 @@ public class DBManagerClientImpl implements DBManagerClient {
     }
 
     @Override
-    public boolean update(Client newClient, Address newAddress) {
+    public Address update(Address newAddress) {
         Session session = sessionFactory.getCurrentSession();
-        session.merge(newClient);
-        session.merge(newAddress);
-        return true;
+        return session.merge(newAddress);
     }
 
     @Override
