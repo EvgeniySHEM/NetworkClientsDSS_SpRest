@@ -1,6 +1,5 @@
 package ru.sanctio.configuration;
 
-import com.mchange.v2.c3p0.ComboPooledDataSource;
 import com.zaxxer.hikari.HikariDataSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -11,7 +10,6 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import javax.sql.DataSource;
-import java.beans.PropertyVetoException;
 import java.util.Properties;
 
 @Configuration
