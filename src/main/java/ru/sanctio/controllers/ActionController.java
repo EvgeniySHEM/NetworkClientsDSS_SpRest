@@ -12,7 +12,7 @@ import ru.sanctio.service.AddressService;
 import ru.sanctio.service.ClientService;
 
 @RestController
-@RequestMapping("api/clients/action")
+@RequestMapping("/api/clients/action")
 public class ActionController {
 
     private final ClientService clientService;
@@ -25,7 +25,8 @@ public class ActionController {
     }
 
     @GetMapping("/{id}")
-    public ClientDTO getClientById(@PathVariable String id) {
+    @ResponseStatus(HttpStatus.OK)
+    public ClientDTO getClientById(@PathVariable("id") String id) {
         ClientDTO client = clientService.getClientById(id);
 
         if (client == null) {
@@ -35,7 +36,8 @@ public class ActionController {
     }
 
     @GetMapping("/addresses/{id}")
-    public AddressDTO getAddressById(@PathVariable String id) {
+    @ResponseStatus(HttpStatus.OK)
+    public AddressDTO getAddressById(@PathVariable("id") String id) {
         AddressDTO addressDTO = addressService.selectAddressById(id);
 
         if (addressDTO == null) {
