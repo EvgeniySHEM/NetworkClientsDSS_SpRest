@@ -45,7 +45,7 @@ public class ActionController {
     }
 
     @PostMapping("/")
-    public ResponseEntity createNewClient(@RequestBody AddressDTO addressDTO) {
+    public ResponseEntity<String> createNewClient(@RequestBody AddressDTO addressDTO) {
         ClientDTO clientDTO = addressDTO.client();
         boolean newClient = clientService.createNewClient(clientDTO, addressDTO);
 
@@ -63,7 +63,7 @@ public class ActionController {
 
 
     @DeleteMapping("/{id}")
-    public ResponseEntity deleteAddress(@PathVariable String id) {
+    public ResponseEntity<String> deleteAddress(@PathVariable String id) {
         addressService.deleteAddress(id);
 
         return new ResponseEntity<>(HttpStatus.OK);
