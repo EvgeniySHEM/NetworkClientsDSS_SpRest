@@ -16,11 +16,13 @@ import java.util.List;
 public class AddressServiceImpl implements AddressService {
 
 
-    private DBManagerAddress dbManagerAddress;
+    private final DBManagerAddress dbManagerAddress;
+    private final AddressDTOMapper addressDTOMapper;
 
     @Autowired
-    public AddressServiceImpl(DBManagerAddress dbManagerAddress) {
+    public AddressServiceImpl(DBManagerAddress dbManagerAddress, AddressDTOMapper addressDTOMapper) {
         this.dbManagerAddress = dbManagerAddress;
+        this.addressDTOMapper = addressDTOMapper;
     }
 
     @Override
@@ -28,14 +30,14 @@ public class AddressServiceImpl implements AddressService {
     public List<AddressDTO> getSortedData() {
         List<Address> list = dbManagerAddress.getAllInformation();
         list.sort((a, b) -> a.getClient().getClientId() - b.getClient().getClientId());
-        return AddressDTOMapper.INSTANCE.mapToDtoList(list);
+        return addressDTOMapper.toDtoList(list);
     }
 
     @Override
     @Transactional
     public AddressDTO selectAddressById(String addressId) {
         Address address = dbManagerAddress.selectAddressById(addressId);
-        return AddressDTOMapper.INSTANCE.mapToDto(address);
+        return addressDTOMapper.toDto(address);
     }
 
     @Override

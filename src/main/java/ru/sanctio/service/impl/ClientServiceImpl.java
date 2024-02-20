@@ -16,18 +16,23 @@ import ru.sanctio.service.ClientService;
 public class ClientServiceImpl implements ClientService {
 
 
-    private DBManagerClient dbManagerClient;
+    private final DBManagerClient dbManagerClient;
+    private final AddressDTOMapper addressDTOMapper;
+    private final ClientDTOMapper clientDTOMapper;
+
 
     @Autowired
-    public ClientServiceImpl(DBManagerClient dbManagerClient) {
+    public ClientServiceImpl(DBManagerClient dbManagerClient, AddressDTOMapper addressDTOMapper, ClientDTOMapper clientDTOMapper) {
         this.dbManagerClient = dbManagerClient;
+        this.addressDTOMapper = addressDTOMapper;
+        this.clientDTOMapper = clientDTOMapper;
     }
 
     @Override
     @Transactional
     public boolean createNewClient(ClientDTO clientDTO, AddressDTO addressDTO) {
-        Client newClient = ClientDTOMapper.INSTANCE.mapToEntity(clientDTO);
-        Address newAddress = AddressDTOMapper.INSTANCE.mapToEntity(addressDTO);
+        Client newClient = clientDTOMapper.toEntity(clientDTO);
+        Address newAddress = addressDTOMapper.toEntity(addressDTO);
 
         return dbManagerClient.createNewClient(newClient, newAddress);
     }
@@ -35,15 +40,15 @@ public class ClientServiceImpl implements ClientService {
     @Override
     @Transactional
     public AddressDTO updateClient(AddressDTO addressDTO) {
-        Address newAddress = AddressDTOMapper.INSTANCE.mapToEntity(addressDTO);
+        Address newAddress = addressDTOMapper.toEntity(addressDTO);
         Address address = dbManagerClient.update(newAddress);
-        return AddressDTOMapper.INSTANCE.mapToDto(address);
+        return addressDTOMapper.toDto(address);
     }
 
     @Override
     @Transactional
     public ClientDTO getClientById(String id) {
         Client client = dbManagerClient.getClientById(id);
-        return ClientDTOMapper.INSTANCE.mapToDto(client);
+        return clientDTOMapper.toDto(client);
     }
 }

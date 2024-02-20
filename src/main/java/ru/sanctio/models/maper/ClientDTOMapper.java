@@ -1,15 +1,9 @@
 package ru.sanctio.models.maper;
 
 import org.mapstruct.Mapper;
-import org.mapstruct.factory.Mappers;
-import ru.sanctio.models.entity.Client;
 import ru.sanctio.models.dto.ClientDTO;
+import ru.sanctio.models.entity.Client;
 
-@Mapper
-public interface ClientDTOMapper {
-
-    ClientDTOMapper INSTANCE = Mappers.getMapper( ClientDTOMapper.class );
-
-    Client mapToEntity (ClientDTO clientDTO);
-    ClientDTO mapToDto (Client client);
+@Mapper(componentModel = "spring")
+public interface ClientDTOMapper extends Mappable<Client, ClientDTO> {
 }

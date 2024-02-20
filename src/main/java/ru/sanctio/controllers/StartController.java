@@ -25,7 +25,7 @@ public class StartController {
     }
 
     @GetMapping("/clients")
-    public List<AddressDTO> showAllInformation(Model model) {
+    public List<AddressDTO> showAllInformation() {
         return addressService.getSortedData();
     }
 }

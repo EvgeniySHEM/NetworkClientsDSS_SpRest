@@ -24,7 +24,6 @@ public class MyConfig {
         dataSource.setDriverClassName("org.postgresql.Driver");
         dataSource.setJdbcUrl("jdbc:postgresql://localhost:5432/jakarta?useSSL=false&serverTimezone=UTC");
         dataSource.setUsername("evgeniysharychenkov");
-//            dataSource.setPassword("12345678");
         return dataSource;
     }
 
