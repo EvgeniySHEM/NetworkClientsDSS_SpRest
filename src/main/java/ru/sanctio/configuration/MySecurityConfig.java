@@ -7,6 +7,7 @@ import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
@@ -28,10 +29,13 @@ public class MySecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.authorizeHttpRequests((user) -> user
+        http
+                .csrf(AbstractHttpConfigurer::disable)
+                .cors(AbstractHttpConfigurer::disable)
+                .httpBasic(Customizer.withDefaults())
+                .authorizeHttpRequests((user) -> user
                         .requestMatchers(new AntPathRequestMatcher("/api/clients")).hasAnyRole("HR", "MANAGER", "EMPLOYEE")
                         .requestMatchers(new AntPathRequestMatcher("/api/clients/action/**")).hasRole("MANAGER")
-//                .requestMatchers(new AntPathRequestMatcher("/hr_info/**")).hasRole("HR")
                         .anyRequest().authenticated()
         ).formLogin(Customizer.withDefaults());
 

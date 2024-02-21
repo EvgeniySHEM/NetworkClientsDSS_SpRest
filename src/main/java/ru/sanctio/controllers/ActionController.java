@@ -58,6 +58,7 @@ public class ActionController {
     }
 
     @PutMapping("/")
+    @ResponseStatus(HttpStatus.OK)
     public AddressDTO update(@RequestBody AddressDTO addressDTO) {
 
         return clientService.updateClient(addressDTO);
@@ -65,9 +66,9 @@ public class ActionController {
 
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteAddress(@PathVariable String id) {
+    public ResponseEntity<String> deleteAddress(@PathVariable("id") String id) {
         addressService.deleteAddress(id);
 
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

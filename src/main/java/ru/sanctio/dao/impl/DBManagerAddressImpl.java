@@ -39,10 +39,9 @@ public class DBManagerAddressImpl implements DBManagerAddress {
 
         if(address != null) {
             clientId = address.getClient().getClientId();
+            Session session = sessionFactory.getCurrentSession();
+            session.remove(address);
         }
-
-        Session session = sessionFactory.getCurrentSession();
-        session.remove(address);
 
         if (!checkAddressByClientId(clientId)) {
             deleteClientWithoutAddressById(clientId);

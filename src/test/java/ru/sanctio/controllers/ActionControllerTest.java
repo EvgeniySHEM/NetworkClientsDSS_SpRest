@@ -1,9 +1,7 @@
 package ru.sanctio.controllers;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import jakarta.servlet.ServletException;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -11,15 +9,11 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.web.bind.annotation.*;
 import ru.sanctio.exception_handling.GlobalExceptionHandler;
-import ru.sanctio.exception_handling.IncorrectData;
 import ru.sanctio.exception_handling.NoSuchDataException;
 import ru.sanctio.exception_handling.RepeatingAddressException;
 import ru.sanctio.models.dto.AddressDTO;
@@ -29,10 +23,10 @@ import ru.sanctio.service.ClientService;
 
 import java.util.Objects;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -68,7 +62,7 @@ class ActionControllerTest {
                         "model",
                         "address",
                         testClientDTO
-        );
+                );
     }
 
     @BeforeEach
@@ -146,8 +140,8 @@ class ActionControllerTest {
         String addressDtoJson = objectMapper.writeValueAsString(addressDTO);
 
         mockMvc.perform(post("/api/clients/action/")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(addressDtoJson))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(addressDtoJson))
                 .andExpect(status().isCreated());
 
         verify(clientService, times(1)).createNewClient(any(), any());
@@ -170,11 +164,32 @@ class ActionControllerTest {
         verify(clientService, times(1)).createNewClient(any(), any());
     }
 
-//    @PutMapping("/")
-//    public AddressDTO update(@RequestBody AddressDTO addressDTO) {
-//
-//        return clientService.updateClient(addressDTO);
-//    }
+    @Test
+    void update() throws Exception {
+        when(clientService.updateClient(any())).thenReturn(addressDTO);
+        String addressDtoJson = objectMapper.writeValueAsString(addressDTO);
 
+        MvcResult mvcResult = mockMvc.perform(put("/api/clients/action/")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(addressDtoJson))
+                .andExpect(status().isOk())
+                .andReturn();
+
+        AddressDTO result = objectMapper.readValue(
+                mvcResult.getResponse().getContentAsString(),
+                new TypeReference<>() {
+                });
+
+        assertEquals(addressDTO, result);
+        verify(clientService, times(1)).updateClient(any());
+    }
+
+    @Test
+    void deleteAddress() throws Exception {
+        mockMvc.perform(delete("/api/clients/action/{id}", 1))
+                .andExpect(status().isNoContent());
+
+        verify(addressService, times(1)).deleteAddress(any());
+    }
 
 }
