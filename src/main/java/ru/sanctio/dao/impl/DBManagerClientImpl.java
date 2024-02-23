@@ -2,12 +2,10 @@
 package ru.sanctio.dao.impl;
 
 
-import jakarta.persistence.EntityManager;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 import ru.sanctio.dao.DBManagerClient;
 import ru.sanctio.models.entity.Address;
 import ru.sanctio.models.entity.Client;

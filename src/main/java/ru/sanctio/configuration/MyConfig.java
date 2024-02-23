@@ -21,14 +21,22 @@ import java.util.Properties;
 @EnableTransactionManagement
 public class MyConfig {
 
+    @Value("${dataSource.driver}")
+    private String driver;
+    @Value("${dataSource.url}")
+    private String url;
     @Value("${dataSource.user}")
     private String username;
+    @Value("${dataSource.dialect}")
+    private String dialect;
+    @Value("${hibernate.show_sql}")
+    private String showSql;
 
     @Bean
     public DataSource dataSource() {
         HikariDataSource dataSource = new HikariDataSource();
-        dataSource.setDriverClassName("org.postgresql.Driver");
-        dataSource.setJdbcUrl("jdbc:postgresql://localhost:5432/jakarta?useSSL=false&serverTimezone=UTC");
+        dataSource.setDriverClassName(driver);
+        dataSource.setJdbcUrl(url);
         dataSource.setUsername(username);
         return dataSource;
     }
@@ -40,9 +48,8 @@ public class MyConfig {
         sessionFactory.setPackagesToScan("ru.sanctio.models.entity");
 
         Properties hibernateProperties = new Properties();
-        hibernateProperties.setProperty("hibernate.dialect",
-                "org.hibernate.dialect.PostgresPlusDialect");
-        hibernateProperties.setProperty("hibernate.show_sql", "true");
+        hibernateProperties.setProperty("hibernate.dialect", dialect);
+        hibernateProperties.setProperty("hibernate.show_sql", showSql);
         sessionFactory.setHibernateProperties(hibernateProperties);
 
         return sessionFactory;

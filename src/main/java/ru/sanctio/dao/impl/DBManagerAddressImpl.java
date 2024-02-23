@@ -62,7 +62,7 @@ public class DBManagerAddressImpl implements DBManagerAddress {
         return !list.isEmpty();
     }
 
-    private void deleteClientWithoutAddressById(int clientId) { // лучше сделать через createQuery одним запросом
+    private void deleteClientWithoutAddressById(int clientId) {
         Session session = sessionFactory.getCurrentSession();
         Client client = session.find(Client.class, clientId);
         session.remove(client);
