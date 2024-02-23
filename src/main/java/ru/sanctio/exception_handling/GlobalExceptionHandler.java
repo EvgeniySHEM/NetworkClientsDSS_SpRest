@@ -3,8 +3,8 @@ package ru.sanctio.exception_handling;
 import jakarta.validation.ConstraintViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-//import org.springframework.security.access.AccessDeniedException;
-//import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -47,11 +47,11 @@ public class GlobalExceptionHandler {
         return new ExceptionBody(e.getMessage());
     }
 
-//    @ExceptionHandler(AccessDeniedException.class)
-//    @ResponseStatus(HttpStatus.FORBIDDEN)
-//    public ExceptionBody handleAccessDenied() {
-//        return new ExceptionBody("Access denied");
-//    }
+    @ExceptionHandler(AccessDeniedException.class)
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    public ExceptionBody handleAccessDenied() {
+        return new ExceptionBody("Access denied");
+    }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
@@ -75,9 +75,9 @@ public class GlobalExceptionHandler {
         return exceptionBody;
     }
 
-//    @ExceptionHandler(AuthenticationException.class)
-//    @ResponseStatus(HttpStatus.BAD_REQUEST)
-//    public ExceptionBody handleAuthentication(AuthenticationException e) {
-//        return new ExceptionBody("Authentication failed.");
-//    }
+    @ExceptionHandler(AuthenticationException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ExceptionBody handleAuthentication(AuthenticationException e) {
+        return new ExceptionBody("Authentication failed.");
+    }
 }

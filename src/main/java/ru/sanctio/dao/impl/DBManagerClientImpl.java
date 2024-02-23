@@ -3,11 +3,11 @@ package ru.sanctio.dao.impl;
 
 
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityManagerFactory;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 import ru.sanctio.dao.DBManagerClient;
 import ru.sanctio.models.entity.Address;
 import ru.sanctio.models.entity.Client;
@@ -19,12 +19,10 @@ import java.util.Optional;
 public class DBManagerClientImpl implements DBManagerClient {
 
     private final SessionFactory sessionFactory;
-    private final EntityManagerFactory entityManagerFactory;
 
     @Autowired
-    public DBManagerClientImpl(SessionFactory sessionFactory, EntityManagerFactory entityManagerFactory) {
+    public DBManagerClientImpl(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
-        this.entityManagerFactory = entityManagerFactory;
     }
 
     @Override
@@ -46,7 +44,7 @@ public class DBManagerClientImpl implements DBManagerClient {
     private Optional<Client> findClientNotById(Client client) {
         Session session = sessionFactory.getCurrentSession();
         List<Client> clientList = session.createQuery("from Client c where c.clientName = :clientName and " +
-                        "c.type = :type and c.added = :added", Client.class)
+                                                      "c.type = :type and c.added = :added", Client.class)
                 .setParameter("clientName", client.getClientName())
                 .setParameter("type", client.getType())
                 .setParameter("added", client.getAdded())
@@ -75,7 +73,7 @@ public class DBManagerClientImpl implements DBManagerClient {
         Session session = sessionFactory.getCurrentSession();
 
         List<Address> addressList = session.createQuery("from Address a where a.ip = :ip and a.mac = :mac " +
-                        "and a.model = :model and a.address = :address", Address.class)
+                                                        "and a.model = :model and a.address = :address", Address.class)
                 .setParameter("ip", newAddress.getIp())
                 .setParameter("mac", newAddress.getMac())
                 .setParameter("model", newAddress.getModel())
@@ -97,7 +95,7 @@ public class DBManagerClientImpl implements DBManagerClient {
 
     @Override
     public Client getClientById(String id) {
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
-        return entityManager.find(Client.class, id);
+        Session session = sessionFactory.getCurrentSession();
+        return session.find(Client.class, id);
     }
 }

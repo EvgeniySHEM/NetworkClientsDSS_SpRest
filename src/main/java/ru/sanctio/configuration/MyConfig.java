@@ -1,9 +1,11 @@
 package ru.sanctio.configuration;
 
 import com.zaxxer.hikari.HikariDataSource;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
@@ -14,16 +16,20 @@ import java.util.Properties;
 
 @Configuration
 @ComponentScan(basePackages = "ru.sanctio")
+@PropertySource("classpath:application.properties")
 @EnableWebMvc
 @EnableTransactionManagement
 public class MyConfig {
+
+    @Value("${dataSource.user}")
+    private String username;
 
     @Bean
     public DataSource dataSource() {
         HikariDataSource dataSource = new HikariDataSource();
         dataSource.setDriverClassName("org.postgresql.Driver");
         dataSource.setJdbcUrl("jdbc:postgresql://localhost:5432/jakarta?useSSL=false&serverTimezone=UTC");
-        dataSource.setUsername("evgeniysharychenkov");
+        dataSource.setUsername(username);
         return dataSource;
     }
 
