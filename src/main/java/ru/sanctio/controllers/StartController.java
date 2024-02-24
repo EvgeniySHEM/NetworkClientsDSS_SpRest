@@ -11,6 +11,9 @@ import ru.sanctio.service.AddressService;
 
 import java.util.List;
 
+/**
+ * Контроллер для получения всех данных клиентов, хранящихся в базе данных.
+ */
 @RestController
 @RequestMapping("/api")
 public class StartController {
@@ -22,6 +25,10 @@ public class StartController {
         this.addressService = addressService;
     }
 
+    /**
+     * Возвращает информацию о всех данных клиентов, хранящихся в базе данных.
+     * @return List<AddressDTO>, HttpStatus.OK
+     */
     @GetMapping("/clients")
     @ResponseStatus(HttpStatus.OK)
     public List<AddressDTO> showAllInformation() {

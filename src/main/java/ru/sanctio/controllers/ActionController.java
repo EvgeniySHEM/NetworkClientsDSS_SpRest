@@ -11,6 +11,10 @@ import ru.sanctio.models.dto.ClientDTO;
 import ru.sanctio.service.AddressService;
 import ru.sanctio.service.ClientService;
 
+/**
+ * Контроллер для взаимодействия с отдельными данными клиентов, хранящихся в базе данных.
+ * Доступен для обращения пользователю с ролью: "MANAGER"
+ */
 @RestController
 @RequestMapping("/api/clients/action")
 public class ActionController {
@@ -24,6 +28,12 @@ public class ActionController {
         this.addressService = addressService;
     }
 
+
+    /**
+     * Возвращает сведения, имеющиеся в базе данных, о клиенте по его идентификатору
+     * @param id
+     * @return ClientDTO, HttpStatus.OK
+     */
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public ClientDTO getClientById(@PathVariable("id") String id) {
@@ -35,6 +45,11 @@ public class ActionController {
         return client;
     }
 
+    /**
+     * Возвращает сведения, имеющиеся в базе данных, об адресе
+     * @param id
+     * @return AddressDTO, HttpStatus.OK
+     */
     @GetMapping("/addresses/{id}")
     @ResponseStatus(HttpStatus.OK)
     public AddressDTO getAddressById(@PathVariable("id") String id) {
@@ -46,6 +61,13 @@ public class ActionController {
         return addressDTO;
     }
 
+    /**
+     * Сохраняет данные о клиенте в базе данных
+     * @param addressDTO
+     * @throws RepeatingAddressException, если клиент с таким адресом уже зарегистрирован
+     * @return HttpStatus.CREATED, если сохранение данных прошло успешно,
+     * HttpStatus.CONFLICT - если клиент с таким адресом уже зарегистрирован.
+     */
     @PostMapping("/")
     public ResponseEntity<String> createNewClient(@RequestBody AddressDTO addressDTO) {
         ClientDTO clientDTO = addressDTO.client();
@@ -57,6 +79,11 @@ public class ActionController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
+    /**
+     * Изменяет данные в базе данных
+     * @param addressDTO - с данными, которые нужно изменить
+     * @return AddressDTO - с измененными данными, HttpStatus.OK
+     */
     @PutMapping("/")
     @ResponseStatus(HttpStatus.OK)
     public AddressDTO update(@RequestBody AddressDTO addressDTO) {
@@ -65,6 +92,11 @@ public class ActionController {
     }
 
 
+    /**
+     * Удаляет адрес из базы данных
+     * @param id - адреса, который нужно удалить
+     * @return HttpStatus.NO_CONTENT
+     */
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteAddress(@PathVariable("id") String id) {
         addressService.deleteAddress(id);

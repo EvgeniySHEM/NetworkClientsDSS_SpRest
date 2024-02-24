@@ -12,6 +12,9 @@ import ru.sanctio.service.AddressService;
 import java.util.List;
 
 
+/**
+ * Класс для реализации бизнес логики с данными адреса.
+ */
 @Service
 public class AddressServiceImpl implements AddressService {
 
@@ -25,6 +28,11 @@ public class AddressServiceImpl implements AddressService {
         this.addressDTOMapper = addressDTOMapper;
     }
 
+    /**
+     * Возвращает информацию о всех данных клиентов, хранящихся в базе данных,
+     * отсортированных по идентификатору клиента.
+     * @return List<AddressDTO>
+     */
     @Override
     @Transactional
     public List<AddressDTO> getSortedData() {
@@ -33,6 +41,11 @@ public class AddressServiceImpl implements AddressService {
         return addressDTOMapper.toDtoList(list);
     }
 
+    /**
+     * Возвращает данные адреса, хранящиеся в базе данных, по его идентификатору.
+     * @param addressId
+     * @return AddressDTO
+     */
     @Override
     @Transactional
     public AddressDTO selectAddressById(String addressId) {
@@ -40,6 +53,10 @@ public class AddressServiceImpl implements AddressService {
         return addressDTOMapper.toDto(address);
     }
 
+    /**
+     * Удаляет данные адреса, хранящиеся в базе данных, по его идентификатору.
+     * @param addressId
+     */
     @Override
     @Transactional
     public void deleteAddress(String addressId) {

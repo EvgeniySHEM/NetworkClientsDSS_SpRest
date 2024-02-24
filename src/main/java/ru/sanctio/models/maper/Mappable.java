@@ -2,6 +2,11 @@ package ru.sanctio.models.maper;
 
 import java.util.List;
 
+/**
+ * Интерфейс для реализации маппинга данных
+ * @param <E>
+ * @param <D>
+ */
 public interface Mappable <E, D>{
 
     E toEntity(D d);

@@ -12,6 +12,9 @@ import ru.sanctio.models.maper.AddressDTOMapper;
 import ru.sanctio.models.maper.ClientDTOMapper;
 import ru.sanctio.service.ClientService;
 
+/**
+ * Класс для реализации бизнес логики с данными клиента.
+ */
 @Service
 public class ClientServiceImpl implements ClientService {
 
@@ -28,6 +31,12 @@ public class ClientServiceImpl implements ClientService {
         this.clientDTOMapper = clientDTOMapper;
     }
 
+    /**
+     * Метод для обработки данных о клиенте перед сохранением в базе данных
+     * @param clientDTO
+     * @param addressDTO
+     * @return
+     */
     @Override
     @Transactional
     public boolean createNewClient(ClientDTO clientDTO, AddressDTO addressDTO) {
@@ -37,6 +46,11 @@ public class ClientServiceImpl implements ClientService {
         return dbManagerClient.createNewClient(newClient, newAddress);
     }
 
+    /**
+     * Метод для обработки данных о клиенте перед изменениями в базе данных
+     * @param addressDTO
+     * @return AddressDTO
+     */
     @Override
     @Transactional
     public AddressDTO updateClient(AddressDTO addressDTO) {
@@ -45,6 +59,13 @@ public class ClientServiceImpl implements ClientService {
         return addressDTOMapper.toDto(address);
     }
 
+    /**
+     * Метод для обработки запрашиваемых данных о клиенте,
+     * имеющиеся в базе данных,
+     * по его идентификатору
+     * @param id
+     * @return ClientDTO
+     */
     @Override
     @Transactional
     public ClientDTO getClientById(String id) {

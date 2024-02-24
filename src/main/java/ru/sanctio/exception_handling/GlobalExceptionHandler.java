@@ -13,6 +13,9 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Обработчик ошибок на уровне приложения
+ */
 @ControllerAdvice
 public class GlobalExceptionHandler {
 

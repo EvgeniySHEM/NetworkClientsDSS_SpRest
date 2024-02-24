@@ -4,6 +4,10 @@ import ru.sanctio.models.entity.Address;
 
 import java.util.List;
 
+/**
+ * Интерфейс для взаимодействия с базой данных,
+ * касающегося работы с данными адреса
+ */
 public interface DBManagerAddress {
     List<Address> getAllInformation();
 
