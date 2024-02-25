@@ -310,6 +310,14 @@ class AddressTest {
     }
 
     @Test
+    void testEquals_ShouldReturnFalseGetClass() {
+        String testObject = new String();
+
+        assertNotEquals(address, testObject);
+    }
+
+
+    @Test
     void testHashCode_ShouldReturnTrue() {
         Address address1 = new Address(0, "122.177.133.19", "GG-63-9d-3j-kc-2y", "model6", "Minsk");
 
@@ -317,8 +325,36 @@ class AddressTest {
     }
 
     @Test
-    void testHashCode_ShouldReturnFalse() {
+    void testHashCode_ShouldReturnFalseId() {
         Address address1 = new Address(1, "111.177.133.19", "GG-63-9d-3j-kc-2y", "model6", "Tomsk");
+
+        assertNotEquals(address.hashCode(), address1.hashCode());
+    }
+
+    @Test
+    void testHashCode_ShouldReturnFalseIp() {
+        Address address1 = new Address(0, "222.177.133.19", "GG-63-9d-3j-kc-2y", "model6", "Tomsk");
+
+        assertNotEquals(address.hashCode(), address1.hashCode());
+    }
+
+    @Test
+    void testHashCode_ShouldReturnFalseMac() {
+        Address address1 = new Address(0, "111.177.133.19", "II-63-9d-3j-kc-2y", "model6", "Tomsk");
+
+        assertNotEquals(address.hashCode(), address1.hashCode());
+    }
+
+    @Test
+    void testHashCode_ShouldReturnFalseModel() {
+        Address address1 = new Address(0, "111.177.133.19", "GG-63-9d-3j-kc-2y", "model", "Tomsk");
+
+        assertNotEquals(address.hashCode(), address1.hashCode());
+    }
+
+    @Test
+    void testHashCode_ShouldReturnFalseAddress() {
+        Address address1 = new Address(0, "111.177.133.19", "GG-63-9d-3j-kc-2y", "model6", "Omsk");
 
         assertNotEquals(address.hashCode(), address1.hashCode());
     }

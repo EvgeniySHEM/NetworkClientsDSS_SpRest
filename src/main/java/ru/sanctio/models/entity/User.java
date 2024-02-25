@@ -1,5 +1,6 @@
 package ru.sanctio.models.entity;
 
+
 import jakarta.persistence.*;
 
 @Entity

@@ -5,6 +5,9 @@ import org.junit.jupiter.api.Test;
 import ru.sanctio.models.dto.ClientDTO;
 import ru.sanctio.models.entity.Client;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class ClientDTOMapperTest {
@@ -56,6 +59,29 @@ class ClientDTOMapperTest {
         ClientDTO clientDTO = clientDTOMapper.toDto(client);
 
         assertNull(clientDTO);
+    }
+
+    @Test
+    void toDtoList() {
+        List<Client> clients =
+                List.of(
+                        new Client(0, "Миша", "Юридическое лицо", "2023-09-07"));
+
+        List<ClientDTO> dtoList = clientDTOMapper.toDtoList(clients);
+
+        assertEquals(clients.get(0).getClientId(), dtoList.get(0).clientId());
+        assertEquals(clients.get(0).getClientName(), dtoList.get(0).clientName());
+        assertEquals(clients.get(0).getType(), dtoList.get(0).type());
+        assertEquals(clients.get(0).getAdded(), dtoList.get(0).added());
+    }
+
+    @Test
+    void toDtoList_ShouldReturnNull() {
+        List<Client> clients = null;
+
+        List<ClientDTO> dtoList = clientDTOMapper.toDtoList(clients);
+
+        assertNull(dtoList);
     }
 
 }

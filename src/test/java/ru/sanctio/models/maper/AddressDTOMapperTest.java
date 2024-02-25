@@ -10,7 +10,8 @@ import ru.sanctio.models.entity.Client;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 class AddressDTOMapperTest {
 
@@ -105,6 +106,24 @@ class AddressDTOMapperTest {
         List<AddressDTO> addressDTOList = addressDTOMapper.toDtoList(list);
 
         assertNull(addressDTOList);
+    }
+
+    @Test
+    void clientDTOToClient_ShouldReturnNull() {
+        ClientDTO clientDTO = null;
+
+        Client client = addressDTOMapper.clientDTOToClient(clientDTO);
+
+        assertNull(client);
+    }
+
+    @Test
+    void clientToClientDTO_ShouldReturnNull() {
+        Client client = null;
+
+        ClientDTO clientDTO = addressDTOMapper.clientToClientDTO(client);
+
+        assertNull(client);
     }
 
 }

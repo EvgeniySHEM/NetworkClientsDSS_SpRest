@@ -85,6 +85,12 @@ class ClientTest {
     }
 
     @Test
+    void getAdded() {
+
+        assertEquals("2023-05-13", client.getAdded());
+    }
+
+    @Test
     void getAdded_ShouldReturnLocalDateNow() {
         Client client1 = new Client(2, "Петр", "Физическое лицо", null);
 
@@ -164,6 +170,13 @@ class ClientTest {
     }
 
     @Test
+    void testEquals_ShouldReturnFalseIfClientAnotherClass() {
+        String testClass = new String();
+
+        assertNotEquals(client.getClass(), testClass.getClass());
+    }
+
+    @Test
     void testHashCode_ShouldReturnTrue() {
         Client client1 = new Client(1, "Петр", "Физическое лицо", "2023-05-13");
 
@@ -171,8 +184,29 @@ class ClientTest {
     }
 
     @Test
-    void testHashCode_ShouldReturnFalse() {
+    void testHashCode_ShouldReturnFalseId() {
         Client client1 = new Client(2, "Петр", "Физическое лицо", "2023-05-11");
+
+        assertFalse(client.hashCode() == client1.hashCode());
+    }
+
+    @Test
+    void testHashCode_ShouldReturnFalseClientName() {
+        Client client1 = new Client(1, "Макс", "Физическое лицо", "2023-05-11");
+
+        assertFalse(client.hashCode() == client1.hashCode());
+    }
+
+    @Test
+    void testHashCode_ShouldReturnFalseClientType() {
+        Client client1 = new Client(1, "Петр", "Юридическое лицо", "2023-05-11");
+
+        assertFalse(client.hashCode() == client1.hashCode());
+    }
+
+    @Test
+    void testHashCode_ShouldReturnFalseClientAdded() {
+        Client client1 = new Client(1, "Макс", "Физическое лицо", "2023-05-12");
 
         assertFalse(client.hashCode() == client1.hashCode());
     }
